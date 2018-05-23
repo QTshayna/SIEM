@@ -3,7 +3,6 @@ from mysql import connector
 from mysql.connector import errorcode
 from mysql.connector import Error
 
-
 def ConnectToDB():
     try:
         cnx = mysql.connector.connect(user='root', password='toor',
@@ -30,17 +29,23 @@ def PortInDB():
 
 
 def PortScan():
+    port_scan_dict={}
     cnx, cursor = ConnectToDB()
-    query = (""" SELECT DISTINCT SRC_IP DST_IP * FROM fwlogs where PORT =445 OR PORT = 4445""")
+    query = ("""SELECT SRC_IP ,DST_IP,PORT FROM fwlogs""")
+
+
+
     cursor.execute(query)
     cnx.commit()
-    result = cursor.fetchall()
-    for r in result:
-        print r
+    #result = cursor.fetchall()
+    for row in cursor:
+        print row
+
 
 
 def main():
-    PortInDB()
+    PortScan()
+    #PortInDB()
 
 
 
